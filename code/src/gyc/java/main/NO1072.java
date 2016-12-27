@@ -6,19 +6,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /**
- * bash游戏
- * 有一堆石子共有N个。A B两个人轮流拿，A先拿。每次最少拿1颗，最多拿K颗，拿到最后1颗石子的人获胜。假设A B都非常聪明，拿石子的过程中不会出现失误。给出N和K，问最后谁能赢得比赛。
- * 例如N = 3，K = 2。无论A如何拿，B都可以拿到最后1颗石子。
- * 分析情况
- * 当K = 2的时候
- * N = 3时
- * A输
- * 类似找出规律
- * 当 N = m(K + 1)时 m = 1, 2, 3, 4 .....
- * A输 否则 A赢
+ * 有2堆石子。A B两个人轮流拿，A先拿。每次可以从一堆中取任意个或从2堆中取相同数量的石子，但不可不取。拿到最后1颗石子的人获胜。假设A B都非常聪明，拿石子的过程中不会出现失误。给出2堆石子的数量，问最后谁能赢得比赛。
+ * 例如：2堆石子分别为3颗和5颗。那么不论A怎样拿，B都有对应的方法拿到最后1颗。
  * @author yc.guo@zuche.com on 2016/12/26.
  */
-public class NO1066 {
+public class NO1072 {
+
+    private static final double GOLD_NUMBER = (Math.sqrt(5.0) + 1) / 2.0;
 
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in), 1 << 16);
@@ -32,14 +26,19 @@ public class NO1066 {
             inputArr[i][1] = Integer.parseInt(inputString[1]);
         }
         for (int[] input : inputArr) {
-            writer.write(dealBash(input) + "\r\n");
+            writer.write(dealWythoff(input) + "\r\n");
         }
         writer.flush();
     }
 
-
-    private static String dealBash(int[] param) {
-        if (param[0] % (param[1] + 1) == 0) {
+    private static String dealWythoff(int[] param) {
+        if (param[0] > param[1]) {
+            int a = param[0];
+            param[0] = param[1];
+            param[1] = a;
+        }
+        // 这里使用param[1]减去param[0]是为了找K值, 如果为必输局, 则K必等于param[1]减去param[0]
+        if (param[0] == (int)((param[1] - param[0]) * GOLD_NUMBER)) {
             return "B";
         } else {
             return "A";
