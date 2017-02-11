@@ -2,10 +2,7 @@ package gyc.java.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 解决51nodcode中贪心入门中的第三道问题
